@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cozy Anime Bedroom - Canlı & İnteraktif Deneyim</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;600;700&family=Noto+Sans+KR:wght@400;700&display=swap');
+
+    * {
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    body {
+      font-family: 'Comfortaa', 'Noto Sans KR', sans-serif;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      background: #0d0a1a;
+      color: #f1f0f7;
+    }
+
+    /* Custom Retro Pixel Cursor */
+    .custom-cursor {
+      cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><polygon points="0,0 0,18 5,14 9,23 12,21 8,13 14,13" fill="%23ffffff" stroke="%232b1b38" stroke-width="2"/><circle cx="12" cy="5" r="2" fill="%23f472b6"/><circle cx="18" cy="11" r="1.5" fill="%23facc15"/></svg>'), auto;
+    }
+
+    /* Pulsing Interactive Hotspots */
+    .hotspot {
+      position: absolute;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      z-index: 25;
+    }
+
+    .hotspot:hover {
+      box-shadow: 0 0 25px rgba(236, 72, 153, 0.6), inset 0 0 15px rgba(236, 72, 153, 0.4);
+      border: 2px dashed rgba(255, 255, 255, 0.85);
+    }
+
+    .hotspot-pulse {
+      animation: pulse-ring 2.5s infinite;
+    }
+
+    @keyframes pulse-ring {
+      0% { box-shadow: 0 0 0 0 rgba(244, 114, 182, 0.6); }
+      70% { box-shadow: 0 0 0 16px rgba(244, 114, 182, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(244, 114, 182, 0); }
+    }
+
+    /* Floating Dust & Sparkles Canvas */
+    #fx-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 20;
+    }
+
+    /* Room Lighting Color Overlays */
+    .filter-cozy {
+      background: radial-gradient(circle at 70% 30%, rgba(244, 114, 182, 0.15), rgba(15, 10, 30, 0.45));
+    }
+    .filter-midnight {
+      background: radial-gradient(circle at 60% 40%, rgba(99, 102, 241, 0.2), rgba(6, 4, 18, 0.65));
+    }
+    .filter-rainy {
+      background: radial-gradient(circle at 50% 50%, rgba(56, 189, 248, 0.15), rgba(15, 23, 42, 0.6));
+    }
+    .filter-sunset {
+      background: radial-gradient(circle at 75% 40%, rgba(251, 146, 60, 0.25), rgba(40, 10, 30, 0.45));
+    }
+
+    /* Glow Text */
+    .neon-text-pink {
+      text-shadow: 0 0 8px rgba(244, 114, 182, 0.9), 0 0 20px rgba(236, 72, 153, 0.6);
+    }
+    .neon-text-gold {
+      text-shadow: 0 0 8px rgba(250, 204, 21, 0.9), 0 0 20px rgba(234, 179, 8, 0.6);
+    }
+
+    /* Floating Animation */
+    @keyframes float-up {
+      0% { transform: translateY(0px) scale(0.9); opacity: 1; }
+      100% { transform: translateY(-70px) scale(1.2); opacity: 0; }
+    }
+    .animate-float-up {
+      animation: float-up 1.2s ease-out forwards;
+    }
+
+    /* Glassmorphism Panel */
+    .glass-panel {
+      background: rgba(22, 16, 38, 0.78);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+  </style>
+</head>
+<body class="custom-cursor bg-[#0d0a1a] text-slate-100 min-h-screen">
+
+  <!-- Top App Navigation / Header -->
+  <header class="glass-panel sticky top-0 z-50 px-6 py-3 border-b border-pink-500/20 flex flex-wrap items-center justify-between gap-4">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-pink-500 to-amber-400 flex items-center justify-center text-xl shadow-lg shadow-pink-500/30">
+        🐱
+      </div>
+      <div>
+        <h1 class="text-base font-bold text-pink-200 flex items-center gap-2">
+          Cozy Anime Bedroom <span class="text-xs px-2 py-0.5 rounded-full bg-pink-500/20 text-pink-300 border border-pink-500/30">Canlı Deneyim</span>
+        </h1>
+        <p class="text-xs text-slate-400">Tıklanabilir Olaylar, Ses Mikseri & Raf Düzenleyici</p>
+      </div>
+    </div>
+
+    <!-- Quick Mode / Preset Switchers -->
+    <div class="flex items-center gap-2 flex-wrap">
+      <div class="flex bg-slate-900/80 p-1 rounded-xl border border-white/10 text-xs">
+        <button onclick="setLighting('cozy')" id="btn-cozy" class="px-3 py-1 rounded-lg bg-pink-600/40 text-pink-200 font-semibold transition">🌸 Cozy Akşam</button>
+        <button onclick="setLighting('midnight')" id="btn-midnight" class="px-3 py-1 rounded-lg text-slate-400 hover:text-white transition">🌙 Gece Yarısı</button>
+        <button onclick="setLighting('rainy')" id="btn-rainy" class="px-3 py-1 rounded-lg text-slate-400 hover:text-white transition">🌧️ Yağmurlu</button>
+        <button onclick="setLighting('sunset')" id="btn-sunset" class="px-3 py-1 rounded-lg text-slate-400 hover:text-white transition">🌇 Gün Batımı</button>
+      </div>
+
+      <!-- Quick Audio Toggle -->
+      <button onclick="toggleMasterAudio()" id="btn-master-audio" class="px-3 py-1.5 rounded-xl bg-pink-500 hover:bg-pink-400 text-white font-medium text-xs flex items-center gap-2 shadow-lg shadow-pink-500/20 transition">
+        <span id="audio-icon">🎵</span> <span id="audio-label">Lo-Fi Sesleri Başlat</span>
+      </button>
+
+      <!-- Fullscreen / Cinema Mode -->
+      <button onclick="toggleCinemaMode()" class="p-2 rounded-xl bg-slate-800/80 hover:bg-slate-700 border border-white/10 text-slate-200 text-xs transition" title="Görseli Tam Ekran Yap">
+        ⛶
+      </button>
+    </div>
+  </header>
+
+  <main class="max-w-[1700px] mx-auto p-4 md:p-6 grid grid-cols-1 lg:grid-cols-4 gap-6">
+
+    <!-- Left 3 Columns: The Living Interactive Room Wallpaper -->
+    <div class="lg:col-span-3 flex flex-col gap-4">
+      <div class="relative w-full rounded-2xl overflow-hidden shadow-2xl border border-pink-500/25 bg-black" style="aspect-ratio: 16/9;" id="room-viewport">
+
+        <!-- Room Image (Main Backdrop) -->
+        <img id="room-bg" src="./wallpaper.jpg" alt="Cozy Anime Bedroom Wallpaper" class="w-full h-full object-cover select-none pointer-events-none transition duration-700">
+
+        <!-- Lighting Overlay Filter -->
+        <div id="lighting-overlay" class="absolute inset-0 filter-cozy pointer-events-none transition-all duration-1000 z-10"></div>
+
+        <!-- Floating Dust & Sparkles Canvas -->
+        <canvas id="fx-canvas"></canvas>
+
+        <!-- Floating Click Particles Container -->
+        <div id="particle-container" class="absolute inset-0 pointer-events-none z-30 overflow-hidden"></div>
+
+        <!-- Rain Layer (Active when Rainy mode is on) -->
+        <div id="rain-layer" class="absolute inset-0 pointer-events-none z-15 opacity-0 transition-opacity duration-1000 bg-[radial-gradient(ellipse_at_top,_rgba(56,189,248,0.15),_transparent)]"></div>
+
+        <!-- ================= INTERACTIVE HOTSPOTS ================= -->
+
+        <!-- 1. CAT & CAT BED (Bottom-Left) -->
+        <div id="hotspot-cat" onclick="interactWithCat(event)" 
+             class="hotspot hotspot-pulse" 
+             style="bottom: 3%; left: 8%; width: 28%; height: 32%;" 
+             title="Kediyi Sev / Uyandır (Pamuk)">
+          <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-pink-500/90 text-white text-[11px] font-bold px-2.5 py-0.5 rounded-full shadow-lg flex items-center gap-1 border border-pink-200/40 pointer-events-none">
+            <span>🐾</span> <span id="cat-badge-text">Pamuk (Uykuda)</span>
+          </div>
+        </div>
+
+        <!-- 2. BAMBI PLUSH & BLANKET (Bottom-Left Beside Cat) -->
+        <div id="hotspot-bambi" onclick="interactWithBambi(event)" 
+             class="hotspot" 
+             style="bottom: 4%; left: 0%; width: 14%; height: 38%;" 
+             title="Bambi Peluş & Battaniye">
+          <div class="opacity-0 hover:opacity-100 transition absolute top-2 left-2 bg-amber-600/90 text-white text-[10px] px-2 py-0.5 rounded-md pointer-events-none">
+            🦌 Bambi Battaniye
+          </div>
+        </div>
+
+        <!-- 3. SOJU SHELF (Left Upper Wall) -->
+        <div id="hotspot-soju" onclick="interactWithSojuShelf(event)" 
+             class="hotspot" 
+             style="top: 10%; left: 3%; width: 22%; height: 42%;" 
+             title="Soju Dolabı">
+          <div class="absolute top-2 right-2 bg-emerald-600/90 text-white text-[11px] font-bold px-2 py-0.5 rounded-full shadow flex items-center gap-1 pointer-events-none">
+            <span>🍾</span> <span>Soju Barı (소주)</span>
+          </div>
+        </div>
+
+        <!-- 4. EMPTY WOODEN SHELVES (Left Wall, Beside Soju) -->
+        <div id="hotspot-empty-shelves" onclick="openShelfModal()" 
+             class="hotspot" 
+             style="top: 14%; left: 25%; width: 18%; height: 60%;" 
+             title="Boş Rafları Doldur!">
+          <div class="absolute top-4 left-1/2 -translate-x-1/2 bg-indigo-600/95 text-white text-[11px] font-bold px-2.5 py-0.5 rounded-full shadow-lg flex items-center gap-1.5 border border-indigo-300/40 animate-bounce pointer-events-none">
+            <span>✨</span> <span>Rafları Düzenle</span>
+          </div>
+          <!-- Dynamically placed shelf items overlay -->
+          <div id="shelf-items-preview" class="absolute inset-0 flex flex-col justify-end p-2 gap-2 pointer-events-none"></div>
+        </div>
+
+        <!-- 5. DUAL PC MONITORS (Right Side) -->
+        <div id="hotspot-monitors" onclick="toggleMonitorScreen(event)" 
+             class="hotspot" 
+             style="top: 36%; right: 7%; width: 33%; height: 26%;" 
+             title="PC Ekranlarını Değiştir">
+          <div class="absolute top-1 left-1/2 -translate-x-1/2 bg-purple-600/90 text-white text-[11px] font-bold px-2 py-0.5 rounded-full shadow flex items-center gap-1 pointer-events-none">
+            <span>🖥️</span> <span id="monitor-status">Lo-Fi Stream</span>
+          </div>
+        </div>
+
+        <!-- 6. RGB MECHANICAL KEYBOARD & MOUSE (Desk) -->
+        <div id="hotspot-keyboard" onclick="interactWithKeyboard(event)" 
+             class="hotspot" 
+             style="top: 55%; right: 15%; width: 22%; height: 14%;" 
+             title="RGB Mekanik Klavyede Yaz">
+          <div class="opacity-0 hover:opacity-100 transition absolute top-0 left-1/2 -translate-x-1/2 bg-pink-600/90 text-white text-[10px] px-2 py-0.5 rounded-md pointer-events-none">
+            ⌨️ RGB Klavye
+          </div>
+        </div>
+
+        <!-- 7. KOREAN SNACKS (Pepero & Honey Butter Chips on Desk) -->
+        <div id="hotspot-snacks" onclick="eatSnack(event)" 
+             class="hotspot" 
+             style="top: 51%; right: 4%; width: 11%; height: 19%;" 
+             title="Kore Atıştırmalıklarından Ye!">
+          <div class="absolute top-0 right-1 bg-amber-500/90 text-white text-[10px] font-bold px-2 py-0.5 rounded-md shadow flex items-center gap-1 pointer-events-none">
+            <span>🥢</span> <span>Pepero (빼빼로)</span>
+          </div>
+        </div>
+
+        <!-- 8. GAMING CHAIR WITH BAMBI CARDIGAN (Center) -->
+        <div id="hotspot-chair" onclick="touchCardigan(event)" 
+             class="hotspot" 
+             style="top: 41%; left: 51%; width: 16%; height: 48%;" 
+             title="Bambi Hırkası">
+          <div class="opacity-0 hover:opacity-100 transition absolute top-4 left-1/2 -translate-x-1/2 bg-amber-700/90 text-white text-[10px] px-2 py-0.5 rounded-md pointer-events-none">
+            🧥 Bambi Hırka
+          </div>
+        </div>
+
+        <!-- 9. NEON SIGNS & FAIRY LIGHTS (Top Wall) -->
+        <div id="hotspot-lights" onclick="toggleFairyLights(event)" 
+             class="hotspot" 
+             style="top: 0%; left: 0%; width: 100%; height: 16%;" 
+             title="Peri Işıkları Modu">
+          <div class="opacity-0 hover:opacity-100 transition absolute top-2 left-1/2 -translate-x-1/2 bg-amber-500/90 text-white text-[10px] px-2.5 py-0.5 rounded-full pointer-events-none">
+            💡 Peri Işıklarını Değiştir
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Live Interaction Notification Toast / Status Strip -->
+      <div id="interaction-ticker" class="glass-panel px-4 py-3 rounded-xl border border-pink-500/20 flex items-center justify-between text-xs">
+        <div class="flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+          <span class="text-slate-400">Oda Durumu:</span>
+          <span id="ticker-text" class="text-pink-300 font-semibold">Odadasınız. Kediyi sevebilir, rafları doldurabilir veya lo-fi müzikleri açabilirsiniz!</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <span class="text-slate-400">Kedi Sevgisi:</span>
+          <div class="w-28 bg-slate-800 rounded-full h-3 overflow-hidden border border-white/10 p-0.5">
+            <div id="cat-love-bar" class="bg-gradient-to-r from-pink-500 to-rose-400 h-full rounded-full transition-all duration-300" style="width: 45%;"></div>
+          </div>
+          <span id="cat-love-percent" class="text-pink-400 font-bold">45%</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right 1 Column: Controls & Creative Tools -->
+    <div class="flex flex-col gap-5">
+
+      <!-- Panel 1: Lo-Fi Ambient Sound Machine -->
+      <div class="glass-panel p-5 rounded-2xl border border-pink-500/20 shadow-xl flex flex-col gap-4">
+        <div class="flex items-center justify-between">
+          <h2 class="text-sm font-bold text-pink-200 flex items-center gap-2">
+            <span>🎧</span> Lo-Fi Ses Mikseri
+          </h2>
+          <span class="text-[10px] px-2 py-0.5 rounded bg-pink-500/20 text-pink-300 border border-pink-500/30">Web Audio API</span>
+        </div>
+
+        <p class="text-xs text-slate-400">Harici dosya gerektirmeyen, tarayıcıda sentezlenen ortam sesleri:</p>
+
+        <!-- Sound Sliders -->
+        <div class="space-y-3 text-xs">
+          <!-- Lo-Fi Synthesizer Chords -->
+          <div class="space-y-1">
+            <div class="flex justify-between text-slate-300">
+              <span class="flex items-center gap-1.5">🎹 Lo-Fi Piyano Akorları</span>
+              <span id="val-chords" class="text-pink-400 font-mono">60%</span>
+            </div>
+            <input type="range" id="slider-chords" min="0" max="100" value="60" oninput="updateSoundMixer()" class="w-full accent-pink-500 cursor-pointer">
+          </div>
+
+          <!-- Rain Sound -->
+          <div class="space-y-1">
+            <div class="flex justify-between text-slate-300">
+              <span class="flex items-center gap-1.5">🌧️ Pencereye Vuran Yağmur</span>
+              <span id="val-rain" class="text-cyan-400 font-mono">30%</span>
+            </div>
+            <input type="range" id="slider-rain" min="0" max="100" value="30" oninput="updateSoundMixer()" class="w-full accent-cyan-400 cursor-pointer">
+          </div>
+
+          <!-- Fireplace / Ambient Crackle -->
+          <div class="space-y-1">
+            <div class="flex justify-between text-slate-300">
+              <span class="flex items-center gap-1.5">🔥 Sıcak Çıtırtı / Şömine</span>
+              <span id="val-fire" class="text-amber-400 font-mono">20%</span>
+            </div>
+            <input type="range" id="slider-fire" min="0" max="100" value="20" oninput="updateSoundMixer()" class="w-full accent-amber-400 cursor-pointer">
+          </div>
+
+          <!-- Night Wind / Crickets -->
+          <div class="space-y-1">
+            <div class="flex justify-between text-slate-300">
+              <span class="flex items-center gap-1.5">🌙 Gece Esintisi & Cırcır Böcekleri</span>
+              <span id="val-wind" class="text-indigo-400 font-mono">25%</span>
+            </div>
+            <input type="range" id="slider-wind" min="0" max="100" value="25" oninput="updateSoundMixer()" class="w-full accent-indigo-400 cursor-pointer">
+          </div>
+        </div>
+
+        <div class="pt-2 border-t border-white/10 flex items-center justify-between">
+          <span class="text-xs text-slate-400">Ana Ses Seviyesi</span>
+          <input type="range" id="slider-master" min="0" max="100" value="80" oninput="updateSoundMixer()" class="w-28 accent-pink-500 cursor-pointer">
+        </div>
+      </div>
+
+      <!-- Panel 2: Shelf Customizer (Empty Shelves) -->
+      <div class="glass-panel p-5 rounded-2xl border border-pink-500/20 shadow-xl flex flex-col gap-3">
+        <div class="flex items-center justify-between">
+          <h2 class="text-sm font-bold text-pink-200 flex items-center gap-2">
+            <span>📦</span> Ahşap Rafları Doldur
+          </h2>
+          <button onclick="openShelfModal()" class="text-[11px] px-2.5 py-1 rounded-lg bg-pink-500/30 text-pink-200 hover:bg-pink-500/50 border border-pink-400/30 transition">
+            + Nesne Ekle
+          </button>
+        </div>
+
+        <p class="text-xs text-slate-400">Görseldeki boş raflara koyduğun eşyalar:</p>
+
+        <!-- Shelf Inventory List -->
+        <div id="shelf-items-list" class="space-y-2 max-h-48 overflow-y-auto pr-1">
+          <!-- Filled dynamically -->
+        </div>
+      </div>
+
+      <!-- Panel 3: Room Lighting & Atmosphere Presets -->
+      <div class="glass-panel p-5 rounded-2xl border border-pink-500/20 shadow-xl flex flex-col gap-3">
+        <h2 class="text-sm font-bold text-pink-200 flex items-center gap-2">
+          <span>💡</span> Işıklandırma & Efektler
+        </h2>
+
+        <div class="grid grid-cols-2 gap-2 text-xs">
+          <button onclick="toggleFairyLightsMode()" id="btn-fairy-mode" class="p-2.5 rounded-xl bg-slate-900/80 border border-white/10 text-left hover:border-pink-500/50 transition">
+            <div class="text-[10px] text-slate-400">Peri Işıkları</div>
+            <div class="font-bold text-amber-300" id="fairy-mode-status">✨ Parlak Titreşim</div>
+          </button>
+
+          <button onclick="toggleNeonColor()" id="btn-neon-color" class="p-2.5 rounded-xl bg-slate-900/80 border border-white/10 text-left hover:border-pink-500/50 transition">
+            <div class="text-[10px] text-slate-400">Neon Tabela</div>
+            <div class="font-bold text-pink-400" id="neon-mode-status">💖 Lo-Fi Pembe</div>
+          </button>
+
+          <button onclick="toggleParticles()" id="btn-particles" class="p-2.5 rounded-xl bg-slate-900/80 border border-white/10 text-left hover:border-pink-500/50 transition">
+            <div class="text-[10px] text-slate-400">Havada Parçacıklar</div>
+            <div class="font-bold text-emerald-400" id="particle-status">🟢 Aktif (Toz & Işıltı)</div>
+          </button>
+
+          <button onclick="feedCat()" class="p-2.5 rounded-xl bg-slate-900/80 border border-white/10 text-left hover:border-pink-500/50 transition">
+            <div class="text-[10px] text-slate-400">Ödül Maması</div>
+            <div class="font-bold text-rose-300">🐟 Pamuk'a Balık Ver</div>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ================= MODAL: SHELF CUSTOMIZER ================= -->
+  <div id="shelf-modal" class="fixed inset-0 bg-black/70 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+    <div class="glass-panel max-w-md w-full p-6 rounded-2xl border border-pink-500/40 shadow-2xl flex flex-col gap-4">
+      <div class="flex items-center justify-between border-b border-white/10 pb-3">
+        <h3 class="text-base font-bold text-pink-200 flex items-center gap-2">
+          <span>✨</span> Boş Raflara Eşya Ekle
+        </h3>
+        <button onclick="closeShelfModal()" class="w-7 h-7 rounded-lg bg-slate-800 text-slate-300 hover:text-white flex items-center justify-center">✕</button>
+      </div>
+
+      <p class="text-xs text-slate-400">
+        Görseldeki boş ahşap raflara eklemek istediğin anime & Kore tarzı dekorasyon parçasını seç:
+      </p>
+
+      <div class="grid grid-cols-2 gap-2 text-xs">
+        <button onclick="addItemToShelf('🍶 Jinro Şeftali Soju', 'Şeftali aromalı tatlı Kore sojusu', '🍾')" class="p-3 rounded-xl bg-slate-900/90 border border-white/10 hover:border-pink-500 text-left flex flex-col gap-1 transition">
+          <span class="text-xl">🍾</span>
+          <span class="font-semibold text-pink-300">Şeftali Soju</span>
+          <span class="text-[10px] text-slate-400">Pembe kapaklı şişe</span>
+        </button>
+
+        <button onclick="addItemToShelf('🧸 Mini Bambi Peluşu', 'Yumuşacık benekli Bambi biblosu', '🦌')" class="p-3 rounded-xl bg-slate-900/90 border border-white/10 hover:border-amber-500 text-left flex flex-col gap-1 transition">
+          <span class="text-xl">🦌</span>
+          <span class="font-semibold text-amber-300">Mini Bambi Biblo</span>
+          <span class="text-[10px] text-slate-400">Battaniyeyle uyumlu</span>
+        </button>
+
+        <button onclick="addItemToShelf('🎎 Anya Forger Figürü', 'Sevimli Spy x Family figürü', '✨')" class="p-3 rounded-xl bg-slate-900/90 border border-white/10 hover:border-purple-500 text-left flex flex-col gap-1 transition">
+          <span class="text-xl">✨</span>
+          <span class="font-semibold text-purple-300">Anya Figürü</span>
+          <span class="text-[10px] text-slate-400">Anime koleksiyonu</span>
+        </button>
+
+        <button onclick="addItemToShelf('🪴 Mini Sukulent Bitkisi', 'Terracotta saksıda tatlı sukulent', '🌿')" class="p-3 rounded-xl bg-slate-900/90 border border-white/10 hover:border-emerald-500 text-left flex flex-col gap-1 transition">
+          <span class="text-xl">🌿</span>
+          <span class="font-semibold text-emerald-300">Sukulent Bitki</span>
+          <span class="text-[10px] text-slate-400">Doğal yeşillik</span>
+        </button>
+
+        <button onclick="addItemToShelf('📚 Lo-Fi Manga Ciltleri', 'Ghibli & Lo-Fi çizgi romanları', '📖')" class="p-3 rounded-xl bg-slate-900/90 border border-white/10 hover:border-cyan-500 text-left flex flex-col gap-1 transition">
+          <span class="text-xl">📖</span>
+          <span class="font-semibold text-cyan-300">Manga Ciltleri</span>
+          <span class="text-[10px] text-slate-400">Retro ciltli kitaplar</span>
+        </button>
+
+        <button onclick="addItemToShelf('📷 Pastel Polaroid Fotoğraf Makinesi', 'Anıları donduran lila kamera', '📸')" class="p-3 rounded-xl bg-slate-900/90 border border-white/10 hover:border-rose-500 text-left flex flex-col gap-1 transition">
+          <span class="text-xl">📸</span>
+          <span class="font-semibold text-rose-300">Polaroid Kamera</span>
+          <span class="text-[10px] text-slate-400">Estetik hatıralar</span>
+        </button>
+      </div>
+
+      <div class="flex justify-end pt-2 border-t border-white/10">
+        <button onclick="closeShelfModal()" class="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 text-xs hover:bg-slate-700">Kapat</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT: WEB AUDIO SYNTHESIS, PARTICLES & INTERACTIONS -->
+  <script>
+    /* =========================================================
+       1. WEB AUDIO API SYNTHESIZER (NO EXTERNAL MP3S NEEDED!)
+       ========================================================= */
+    let audioCtx = null;
+    let isAudioPlaying = false;
+    let masterGain = null;
+
+    // Generators
+    let rainGain = null;
+    let fireGain = null;
+    let windGain = null;
+    let chordsGain = null;
+
+    let rainNode = null;
+    let fireInterval = null;
+    let windNode = null;
+    let chordLoopTimer = null;
+
+    function initAudio() {
+      if (audioCtx) return;
+      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+      audioCtx = new AudioContextClass();
+
+      masterGain = audioCtx.createGain();
+      masterGain.gain.setValueAtTime(0.8, audioCtx.currentTime);
+      masterGain.connect(audioCtx.destination);
+
+      // 1. Rain Synthesizer (Filtered Pink Noise)
+      setupRainSynth();
+
+      // 2. Wind Synthesizer (Lowpass Noise with LFO)
+      setupWindSynth();
+
+      // 3. Fireplace Synthesizer (Occasional random crackle pops)
+      setupFireplaceSynth();
+
+      // 4. Lo-Fi Chords Synthesizer (Rhodes-like warm mellow chords)
+      setupChordsSynth();
+    }
+
+    function setupRainSynth() {
+      const bufferSize = audioCtx.sampleRate * 2;
+      const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+      const data = buffer.getChannelData(0);
+      let b0 = 0, b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0, b6 = 0;
+      for (let i = 0; i < bufferSize; i++) {
+        const white = Math.random() * 2 - 1;
+        b0 = 0.99886 * b0 + white * 0.0555179;
+        b1 = 0.99332 * b1 + white * 0.0750759;
+        b2 = 0.96900 * b2 + white * 0.1538520;
+        b3 = 0.86650 * b3 + white * 0.3104856;
+        b4 = 0.55000 * b4 + white * 0.5329522;
+        b5 = -0.7616 * b5 - white * 0.0168980;
+        data[i] = (b0 + b1 + b2 + b3 + b4 + b5 + b6 + white * 0.5362) * 0.08;
+        b6 = white * 0.115926;
+      }
+
+      const noise = audioCtx.createBufferSource();
+      noise.buffer = buffer;
+      noise.loop = true;
+
+      const filter = audioCtx.createBiquadFilter();
+      filter.type = 'lowpass';
+      filter.frequency.setValueAtTime(950, audioCtx.currentTime);
+
+      rainGain = audioCtx.createGain();
+      rainGain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+
+      noise.connect(filter);
+      filter.connect(rainGain);
+      rainGain.connect(masterGain);
+      noise.start();
+      rainNode = noise;
+    }
+
+    function setupWindSynth() {
+      const bufferSize = audioCtx.sampleRate * 2;
+      const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+      const data = buffer.getChannelData(0);
+      for (let i = 0; i < bufferSize; i++) {
+        data[i] = (Math.random() * 2 - 1) * 0.1;
+      }
+      const noise = audioCtx.createBufferSource();
+      noise.buffer = buffer;
+      noise.loop = true;
+
+      const filter = audioCtx.createBiquadFilter();
+      filter.type = 'bandpass';
+      filter.frequency.setValueAtTime(320, audioCtx.currentTime);
+      filter.Q.setValueAtTime(3.0, audioCtx.currentTime);
+
+      windGain = audioCtx.createGain();
+      windGain.gain.setValueAtTime(0.25, audioCtx.currentTime);
+
+      noise.connect(filter);
+      filter.connect(windGain);
+      windGain.connect(masterGain);
+      noise.start();
+      windNode = noise;
+    }
+
+    function setupFireplaceSynth() {
+      fireGain = audioCtx.createGain();
+      fireGain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+      fireGain.connect(masterGain);
+
+      // Fire crackle bursts
+      fireInterval = setInterval(() => {
+        if (!isAudioPlaying || !audioCtx) return;
+        if (Math.random() > 0.4) {
+          triggerCracklePop();
+        }
+      }, 160);
+    }
+
+    function triggerCracklePop() {
+      if (!audioCtx) return;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      const filter = audioCtx.createBiquadFilter();
+
+      filter.type = 'highpass';
+      filter.frequency.setValueAtTime(1400 + Math.random() * 800, audioCtx.currentTime);
+
+      osc.type = 'square';
+      osc.frequency.setValueAtTime(200 + Math.random() * 600, audioCtx.currentTime);
+
+      const now = audioCtx.currentTime;
+      const dur = 0.015 + Math.random() * 0.03;
+      gain.gain.setValueAtTime((0.15 + Math.random() * 0.2) * (fireGain.gain.value * 2), now);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + dur);
+
+      osc.connect(filter);
+      filter.connect(gain);
+      gain.connect(fireGain);
+
+      osc.start(now);
+      osc.stop(now + dur);
+    }
+
+    // Lo-Fi Chord Progressions (Cmaj9 -> Am9 -> Dm9 -> G7sus4)
+    const LOFI_CHORDS = [
+      [261.63, 329.63, 392.00, 493.88, 587.33], // Cmaj9
+      [220.00, 261.63, 329.63, 392.00, 493.88], // Am9
+      [293.66, 349.23, 440.00, 523.25, 659.25], // Dm9
+      [196.00, 293.66, 349.23, 440.00, 523.25]  // G7sus4
+    ];
+    let currentChordIndex = 0;
+
+    function setupChordsSynth() {
+      chordsGain = audioCtx.createGain();
+      chordsGain.gain.setValueAtTime(0.6, audioCtx.currentTime);
+      chordsGain.connect(masterGain);
+
+      playNextChord();
+      chordLoopTimer = setInterval(() => {
+        if (isAudioPlaying) {
+          playNextChord();
+        }
+      }, 3400);
+    }
+
+    function playNextChord() {
+      if (!audioCtx || !isAudioPlaying) return;
+      const chord = LOFI_CHORDS[currentChordIndex];
+      currentChordIndex = (currentChordIndex + 1) % LOFI_CHORDS.length;
+
+      const now = audioCtx.currentTime;
+      const chordDuration = 3.2;
+
+      chord.forEach((freq, idx) => {
+        const osc = audioCtx.createOscillator();
+        const noteGain = audioCtx.createGain();
+        const filter = audioCtx.createBiquadFilter();
+
+        osc.type = idx % 2 === 0 ? 'sine' : 'triangle';
+        osc.frequency.setValueAtTime(freq, now);
+
+        // Warm tape lowpass filter
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(1200, now);
+
+        // Soft mellow envelope
+        const vol = 0.08 / chord.length;
+        noteGain.gain.setValueAtTime(0.0001, now);
+        noteGain.gain.linearRampToValueAtTime(vol, now + 0.35);
+        noteGain.gain.exponentialRampToValueAtTime(0.0001, now + chordDuration);
+
+        osc.connect(filter);
+        filter.connect(noteGain);
+        noteGain.connect(chordsGain);
+
+        osc.start(now);
+        osc.stop(now + chordDuration);
+      });
+    }
+
+    function toggleMasterAudio() {
+      if (!audioCtx) {
+        initAudio();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+
+      isAudioPlaying = !isAudioPlaying;
+      const btn = document.getElementById('btn-master-audio');
+      const icon = document.getElementById('audio-icon');
+      const label = document.getElementById('audio-label');
+
+      if (isAudioPlaying) {
+        btn.classList.remove('bg-pink-500');
+        btn.classList.add('bg-emerald-600');
+        icon.textContent = '🔊';
+        label.textContent = 'Lo-Fi Çalıyor';
+        updateSoundMixer();
+        updateTicker('🎵 Lo-Fi ortam sesleri başlatıldı. Rahatlayın ve odanın tadını çıkarın.');
+      } else {
+        btn.classList.remove('bg-emerald-600');
+        btn.classList.add('bg-pink-500');
+        icon.textContent = '🎵';
+        label.textContent = 'Lo-Fi Sesleri Başlat';
+        if (masterGain) masterGain.gain.setValueAtTime(0, audioCtx.currentTime);
+        updateTicker('Müzik duraklatıldı.');
+      }
+    }
+
+    function updateSoundMixer() {
+      if (!audioCtx) return;
+      const chordsVal = document.getElementById('slider-chords').value / 100;
+      const rainVal = document.getElementById('slider-rain').value / 100;
+      const fireVal = document.getElementById('slider-fire').value / 100;
+      const windVal = document.getElementById('slider-wind').value / 100;
+      const masterVal = document.getElementById('slider-master').value / 100;
+
+      document.getElementById('val-chords').textContent = Math.round(chordsVal * 100) + '%';
+      document.getElementById('val-rain').textContent = Math.round(rainVal * 100) + '%';
+      document.getElementById('val-fire').textContent = Math.round(fireVal * 100) + '%';
+      document.getElementById('val-wind').textContent = Math.round(windVal * 100) + '%';
+
+      if (isAudioPlaying) {
+        masterGain.gain.setTargetAtTime(masterVal, audioCtx.currentTime, 0.05);
+        if (chordsGain) chordsGain.gain.setTargetAtTime(chordsVal, audioCtx.currentTime, 0.05);
+        if (rainGain) rainGain.gain.setTargetAtTime(rainVal * 0.4, audioCtx.currentTime, 0.05);
+        if (fireGain) fireGain.gain.setTargetAtTime(fireVal * 0.3, audioCtx.currentTime, 0.05);
+        if (windGain) windGain.gain.setTargetAtTime(windVal * 0.3, audioCtx.currentTime, 0.05);
+      }
+    }
+
+    // Sound FX: Cat Meow & Purr
+    function playCatSound() {
+      if (!audioCtx) initAudio();
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+
+      const now = audioCtx.currentTime;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(440, now);
+      osc.frequency.exponentialRampToValueAtTime(680, now + 0.18);
+      osc.frequency.exponentialRampToValueAtTime(520, now + 0.45);
+
+      gain.gain.setValueAtTime(0.001, now);
+      gain.gain.linearRampToValueAtTime(0.18, now + 0.1);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.5);
+
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start(now);
+      osc.stop(now + 0.5);
+    }
+
+    // Sound FX: Sparkle Click Chime
+    function playSparkleSound() {
+      if (!audioCtx) initAudio();
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+
+      const freqs = [1046.50, 1318.51, 1567.98, 2093.00];
+      const now = audioCtx.currentTime;
+
+      freqs.forEach((f, i) => {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(f, now + i * 0.04);
+
+        gain.gain.setValueAtTime(0.05, now + i * 0.04);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + i * 0.04 + 0.25);
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(now + i * 0.04);
+        osc.stop(now + i * 0.04 + 0.25);
+      });
+    }
+
+    // Sound FX: Snack Crunch
+    function playCrunchSound() {
+      if (!audioCtx) initAudio();
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+
+      const now = audioCtx.currentTime;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      const filter = audioCtx.createBiquadFilter();
+
+      filter.type = 'bandpass';
+      filter.frequency.setValueAtTime(2200, now);
+
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(150, now);
+
+      gain.gain.setValueAtTime(0.18, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
+
+      osc.connect(filter);
+      filter.connect(gain);
+      gain.connect(audioCtx.destination);
+
+      osc.start(now);
+      osc.stop(now + 0.12);
+    }
+
+    /* =========================================================
+       2. INTERACTIVE ROOM HOTSPOTS & GAMEPLAY LOGIC
+       ========================================================= */
+    let catLove = 45;
+    let catAwake = false;
+
+    function interactWithCat(e) {
+      catLove = Math.min(100, catLove + 12);
+      updateCatDisplay();
+      playCatSound();
+      spawnFloatingEmoji(e.clientX, e.clientY, '💖');
+      spawnFloatingEmoji(e.clientX + 20, e.clientY - 20, '✨');
+
+      catAwake = !catAwake;
+      const badge = document.getElementById('cat-badge-text');
+      if (catAwake) {
+        badge.textContent = 'Pamuk (Mırıldanıyor~ 🐾)';
+        updateTicker('🐱 Pamuk gözlerini araladı, sana sürtündü ve neşeyle mırıldandı!');
+      } else {
+        badge.textContent = 'Pamuk (Huzurla Uyuyor 💤)';
+        updateTicker('🐱 Pamuk tekrar sıcak Bambi battaniyesine kıvrıldı ve uykuya daldı.');
+      }
+    }
+
+    function feedCat() {
+      catLove = 100;
+      updateCatDisplay();
+      playCatSound();
+      updateTicker('🐟 Pamuk lezzetli ödül mamasını yedi! Mutluluk maksimuma ulaştı (%100)!');
+    }
+
+    function updateCatDisplay() {
+      document.getElementById('cat-love-bar').style.width = catLove + '%';
+      document.getElementById('cat-love-percent').textContent = catLove + '%';
+    }
+
+    function interactWithBambi(e) {
+      playSparkleSound();
+      spawnFloatingEmoji(e.clientX, e.clientY, '🦌');
+      updateTicker('🦌 Yumuşacık Bambi benekli polar battaniyeye dokundunuz. Odayı sımsıcak hissettiriyor!');
+    }
+
+    function interactWithSojuShelf(e) {
+      playSparkleSound();
+      spawnFloatingEmoji(e.clientX, e.clientY, '🍾');
+      updateTicker('🍾 Soju Rafı: Orijinal Chamisul, Greyfurt, Üzüm ve Şeftali aromalı şişeler ışıl ışıl parlıyor!');
+    }
+
+    // Monitor Screen Modes
+    const MONITOR_MODES = [
+      { name: 'Lo-Fi Chill Stream', icon: '🎧', msg: '🖥️ Monitörde Lo-Fi Girl canlı yayını açıldı.' },
+      { name: 'Pixel RPG Game', icon: '🎮', msg: '🎮 Monitörde retro anime piksel macera oyunu çalışıyor.' },
+      { name: 'Cyberpunk Code', icon: '💻', msg: '💻 Monitörde mor neon matrix kod editörü açıldı.' },
+      { name: 'Şömine & Yağmur', icon: '🔥', msg: '🔥 Monitörde rahatlatıcı 4K şömine ambiyansı başladı.' }
+    ];
+    let monitorIndex = 0;
+
+    function toggleMonitorScreen(e) {
+      monitorIndex = (monitorIndex + 1) % MONITOR_MODES.length;
+      const mode = MONITOR_MODES[monitorIndex];
+      document.getElementById('monitor-status').textContent = mode.name;
+      playSparkleSound();
+      spawnFloatingEmoji(e.clientX, e.clientY, mode.icon);
+      updateTicker(mode.msg);
+    }
+
+    function interactWithKeyboard(e) {
+      playSparkleSound();
+      spawnFloatingEmoji(e.clientX, e.clientY, '⌨️');
+      updateTicker('⌨️ Mekanik klavyenin RGB aydınlatması ritmik dalgalanma moduna geçti (Cherry MX Brown hissi).');
+    }
+
+    function eatSnack(e) {
+      playCrunchSound();
+      spawnFloatingEmoji(e.clientX, e.clientY, '🥢');
+      spawnFloatingEmoji(e.clientX + 20, e.clientY - 15, '✨');
+      updateTicker('🥢 Kıtır kıtır çikolatalı Pepero yediniz! Enerji ve odaklanma tazelendi.');
+    }
+
+    function touchCardigan(e) {
+      playSparkleSound();
+      spawnFloatingEmoji(e.clientX, e.clientY, '🧥');
+      updateTicker('🧥 Sandalyedeki kahverengi benekli Bambi hırkası hafifçe sallandı. Lo-Fi rahatlığı!');
+    }
+
+    function toggleFairyLights(e) {
+      toggleFairyLightsMode();
+      playSparkleSound();
+      spawnFloatingEmoji(e.clientX, e.clientY, '💡');
+    }
+
+    /* =========================================================
+       3. SHELF INVENTORY MANAGEMENT
+       ========================================================= */
+    let shelfItems = [
+      { name: '🍶 Orijinal Chamisul Soju', desc: 'Yeşil cam şişe, kırmızı etiket', icon: '🍾' },
+      { name: '🧸 Bambi Mini Peluş', desc: 'Benekli sevimli geyik', icon: '🦌' },
+      { name: '🪴 Asılı Sarmaşık Saksı', desc: 'Canlı yapraklar', icon: '🌿' }
+    ];
+
+    function renderShelfItems() {
+      const container = document.getElementById('shelf-items-list');
+      const preview = document.getElementById('shelf-items-preview');
+      container.innerHTML = '';
+      preview.innerHTML = '';
+
+      shelfItems.forEach((item, idx) => {
+        // In List
+        const row = document.createElement('div');
+        row.className = 'flex items-center justify-between p-2 rounded-xl bg-slate-900/60 border border-white/5 text-xs';
+        row.innerHTML = `
+          <div class="flex items-center gap-2">
+            <span class="text-base">${item.icon}</span>
+            <div>
+              <div class="font-semibold text-slate-200">${item.name}</div>
+              <div class="text-[10px] text-slate-400">${item.desc}</div>
+            </div>
+          </div>
+          <button onclick="removeShelfItem(${idx})" class="text-rose-400 hover:text-rose-300 p-1 text-xs">✕</button>
+        `;
+        container.appendChild(row);
+
+        // In Preview on the actual shelf
+        const badge = document.createElement('div');
+        badge.className = 'bg-slate-900/80 backdrop-blur text-pink-200 text-[10px] px-2 py-0.5 rounded-md border border-pink-500/30 shadow-md flex items-center gap-1';
+        badge.innerHTML = `<span>${item.icon}</span> <span>${item.name.split(' ')[1] || item.name}</span>`;
+        preview.appendChild(badge);
+      });
+    }
+
+    function addItemToShelf(name, desc, icon) {
+      if (shelfItems.length >= 6) {
+        alert('Raflar doldu! Yeni bir şey eklemek için önce bir eşyayı kaldırın.');
+        return;
+      }
+      shelfItems.push({ name, desc, icon });
+      renderShelfItems();
+      closeShelfModal();
+      playSparkleSound();
+      updateTicker(`✨ Raflara "${name}" yerleştirildi! Ahşap vitrin zenginleşti.`);
+    }
+
+    function removeShelfItem(idx) {
+      shelfItems.splice(idx, 1);
+      renderShelfItems();
+      updateTicker('Eşya raftan kaldırıldı.');
+    }
+
+    function openShelfModal() {
+      document.getElementById('shelf-modal').classList.remove('hidden');
+    }
+
+    function closeShelfModal() {
+      document.getElementById('shelf-modal').classList.add('hidden');
+    }
+
+    /* =========================================================
+       4. ATMOSPHERE & LIGHTING CONTROL
+       ========================================================= */
+    let currentPreset = 'cozy';
+    function setLighting(preset) {
+      currentPreset = preset;
+      const overlay = document.getElementById('lighting-overlay');
+      const rainLayer = document.getElementById('rain-layer');
+
+      overlay.className = 'absolute inset-0 pointer-events-none transition-all duration-1000 z-10';
+
+      ['btn-cozy', 'btn-midnight', 'btn-rainy', 'btn-sunset'].forEach(id => {
+        const btn = document.getElementById(id);
+        btn.classList.remove('bg-pink-600/40', 'text-pink-200', 'font-semibold');
+        btn.classList.add('text-slate-400');
+      });
+
+      const activeBtn = document.getElementById('btn-' + preset);
+      activeBtn.classList.remove('text-slate-400');
+      activeBtn.classList.add('bg-pink-600/40', 'text-pink-200', 'font-semibold');
+
+      if (preset === 'cozy') {
+        overlay.classList.add('filter-cozy');
+        rainLayer.classList.add('opacity-0');
+        updateTicker('🌸 Sıcak Lo-Fi Akşam modu: Pembe, mor neon ışıkları ve altın rengi peri ışıkları odada parlıyor.');
+      } else if (preset === 'midnight') {
+        overlay.classList.add('filter-midnight');
+        rainLayer.classList.add('opacity-0');
+        updateTicker('🌙 Gece Yarısı modu: Derin mor gölgeler ve ay ışığı pencereden süzülüyor.');
+      } else if (preset === 'rainy') {
+        overlay.classList.add('filter-rainy');
+        rainLayer.classList.remove('opacity-0');
+        // Auto bump rain slider
+        document.getElementById('slider-rain').value = 75;
+        updateSoundMixer();
+        updateTicker('🌧️ Yağmurlu Lo-Fi modu: Dışarıda hafif yağmur yağıyor, oda daha da huzurlu.');
+      } else if (preset === 'sunset') {
+        overlay.classList.add('filter-sunset');
+        rainLayer.classList.add('opacity-0');
+        updateTicker('🌇 Gün Batımı modu: Şehir kızıla boyandı, altın saat ışığı odada.');
+      }
+    }
+
+    let fairyModes = ['✨ Parlak Titreşim', '🌟 Sürekli Açık', '🌙 Loş / Dinlenme', '🌑 Kapalı'];
+    let fairyIdx = 0;
+    function toggleFairyLightsMode() {
+      fairyIdx = (fairyIdx + 1) % fairyModes.length;
+      document.getElementById('fairy-mode-status').textContent = fairyModes[fairyIdx];
+      updateTicker(`💡 Peri ışıkları modu: ${fairyModes[fairyIdx]}`);
+    }
+
+    let neonColors = ['💖 Lo-Fi Pembe', '💜 Siber Eflatun', '💙 Buz Mavisi', '💛 Altın Sarısı'];
+    let neonIdx = 0;
+    function toggleNeonColor() {
+      neonIdx = (neonIdx + 1) % neonColors.length;
+      document.getElementById('neon-mode-status').textContent = neonColors[neonIdx];
+      updateTicker(`Neon tabela rengi: ${neonColors[neonIdx]} olarak güncellendi.`);
+    }
+
+    let particlesActive = true;
+    function toggleParticles() {
+      particlesActive = !particlesActive;
+      document.getElementById('particle-status').textContent = particlesActive ? '🟢 Aktif (Toz & Işıltı)' : '⚪ Kapalı';
+    }
+
+    function toggleCinemaMode() {
+      const elem = document.getElementById('room-viewport');
+      if (!document.fullscreenElement) {
+        elem.requestFullscreen().catch(err => alert("Tam ekran modu başlatılamadı: " + err.message));
+      } else {
+        document.exitFullscreen();
+      }
+    }
+
+    /* =========================================================
+       5. FLOATING PARTICLES & CANVAS ENGINE
+       ========================================================= */
+    const canvas = document.getElementById('fx-canvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+
+    function resizeCanvas() {
+      canvas.width = canvas.parentElement.clientWidth;
+      canvas.height = canvas.parentElement.clientHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    setTimeout(resizeCanvas, 100);
+
+    class DustParticle {
+      constructor() {
+        this.reset();
+      }
+      reset() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.random() * 2.5 + 0.5;
+        this.speedX = (Math.random() - 0.5) * 0.4;
+        this.speedY = -Math.random() * 0.5 - 0.1;
+        this.opacity = Math.random() * 0.7 + 0.2;
+        this.hue = Math.random() > 0.5 ? 330 : 45; // Pink or Gold
+      }
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        if (this.y < 0 || this.x < 0 || this.x > canvas.width) {
+          this.reset();
+          this.y = canvas.height;
+        }
+      }
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = `hsla(${this.hue}, 80%, 75%, ${this.opacity})`;
+        ctx.shadowBlur = 8;
+        ctx.shadowColor = `hsla(${this.hue}, 100%, 70%, 0.8)`;
+        ctx.fill();
+        ctx.shadowBlur = 0;
+      }
+    }
+
+    for (let i = 0; i < 45; i++) {
+      particles.push(new DustParticle());
+    }
+
+    function animateParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      if (particlesActive) {
+        particles.forEach(p => {
+          p.update();
+          p.draw();
+        });
+      }
+      requestAnimationFrame(animateParticles);
+    }
+    animateParticles();
+
+    // Floating Emoji Particles on Click
+    function spawnFloatingEmoji(clientX, clientY, emoji) {
+      const container = document.getElementById('particle-container');
+      const rect = document.getElementById('room-viewport').getBoundingClientRect();
+      const x = clientX - rect.left;
+      const y = clientY - rect.top;
+
+      const el = document.createElement('div');
+      el.className = 'absolute text-2xl select-none animate-float-up pointer-events-none z-40';
+      el.style.left = `${x}px`;
+      el.style.top = `${y}px`;
+      el.textContent = emoji;
+
+      container.appendChild(el);
+      setTimeout(() => el.remove(), 1200);
+    }
+
+    function updateTicker(text) {
+      document.getElementById('ticker-text').textContent = text;
+    }
+
+    // Initialize Default State
+    renderShelfItems();
+  </script>
+</body>
+</html>
